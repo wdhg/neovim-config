@@ -20,10 +20,6 @@ nvim_lsp.efm.setup {
   on_attach = on_attach,
   filetypes = {
     'python',
-    'javascript',
-    'javascriptreact',
-    'typescript',
-    'typescriptreact',
     'rust',
   },
   init_options = {documentFormatting = true},
@@ -39,11 +35,7 @@ nvim_lsp.pyright.setup {
 
 -- typescript
 nvim_lsp.tsserver.setup {
-  -- turn off formatting because it doesn't work
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
-  end,
+  on_attach = on_attach,
 }
 
 -- astro
