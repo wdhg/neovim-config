@@ -22,6 +22,7 @@ packer.startup(function(use)
   use 'nvim-telescope/telescope.nvim'              -- fuzzy finder
   use 'nvim-telescope/telescope-file-browser.nvim' -- file explorer
   use 'vim-airline/vim-airline'                    -- airline tabline
+  use 'airblade/vim-gitgutter'                     -- gitgutter
   -- Text
   use 'brymer-meneses/grammar-guard.nvim'          -- grammar check
   -- JavaScript / TypeScript
