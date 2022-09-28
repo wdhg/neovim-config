@@ -42,7 +42,7 @@ nvim_lsp.tsserver.setup {
 nvim_lsp.astro.setup {
   on_attach = on_attach,
   filetypes = { 'astro' },
-  cmd = { 'astro-ls', '--stdio' },
+  cmd = { 'npx', 'astro-ls', '--stdio' },
   capabilities = capabilities,
 }
 
