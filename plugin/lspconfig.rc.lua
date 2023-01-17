@@ -25,6 +25,11 @@ nvim_lsp.efm.setup {
   init_options = {documentFormatting = true},
 }
 
+-- C
+nvim_lsp.clangd.setup {
+  on_attach = on_attach,
+}
+
 -- python
 nvim_lsp.pyright.setup {
    on_attach = on_attach,

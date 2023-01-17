@@ -26,3 +26,6 @@ vim.opt.shiftwidth = 2
 vim.opt.mouse = 'a'
 vim.opt.exrc = true
 vim.opt.secure = true
+
+-- languages
+vim.cmd('au BufRead,BufNewFile *.h set filetype=c')
