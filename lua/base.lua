@@ -15,12 +15,12 @@ vim.opt.inccommand = 'nosplit'
 vim.opt.conceallevel = 0
 
 -- indenting
-vim.opt.cindent = false
-vim.opt.expandtab = true
+vim.opt.cindent = true
+vim.opt.expandtab = false
 vim.opt.smarttab = true
 vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 0
+vim.opt.shiftwidth = 0
 
 -- functionality
 vim.opt.mouse = 'a'
