@@ -44,6 +44,8 @@ packer.startup(function(use)
   use 'wuelnerdotexe/vim-astro'                    -- astro
   -- Rust
   use 'simrat39/rust-tools.nvim'                   -- rust
+  -- GLSL
+  use 'tikhomirov/vim-glsl'                        -- GLSL syntax highlight
 
   if packer_bootstrap then
     require('packer').sync()
