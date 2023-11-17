@@ -27,5 +27,10 @@ vim.opt.mouse = 'a'
 vim.opt.exrc = true
 vim.opt.secure = true
 
+-- formatoptions
+local formatoptions = vim.api.nvim_get_option('formatoptions')
+formatoptions = formatoptions:gsub('o', '')
+vim.api.nvim_set_option('formatoptions', formatoptions)
+
 -- languages
 vim.cmd('au BufRead,BufNewFile *.h set filetype=c')
