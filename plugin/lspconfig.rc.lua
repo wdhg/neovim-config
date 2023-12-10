@@ -33,7 +33,7 @@ nvim_lsp.clangd.setup {
 -- python
 nvim_lsp.pyright.setup {
    on_attach = on_attach,
-   filetypes = { 'python'},
+   filetypes = { 'python' },
    cmd = { 'pyright-langserver', '--stdio' },
    capabilities = capabilities,
  }
@@ -41,6 +41,14 @@ nvim_lsp.pyright.setup {
 -- typescript
 nvim_lsp.tsserver.setup {
   on_attach = on_attach,
+}
+
+-- go
+nvim_lsp.gopls.setup {
+  on_attach = on_attach,
+  filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+  cmd = { 'gopls' },
+  capabilities = capabilities,
 }
 
 -- astro
