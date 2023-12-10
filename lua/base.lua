@@ -13,6 +13,7 @@ vim.opt.list = true
 vim.opt.colorcolumn = '80'
 vim.opt.inccommand = 'nosplit'
 vim.opt.conceallevel = 0
+vim.opt.signcolumn = 'yes'
 
 -- indenting
 vim.opt.cindent = true
