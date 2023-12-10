@@ -14,6 +14,9 @@ vim.opt.colorcolumn = '80'
 vim.opt.inccommand = 'nosplit'
 vim.opt.conceallevel = 0
 vim.opt.signcolumn = 'yes'
+vim.diagnostic.config {
+  float = { border = "rounded" },
+}
 
 -- indenting
 vim.opt.cindent = true
