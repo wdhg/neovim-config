@@ -36,6 +36,8 @@ packer.startup(function(use)
   use 'nvim-telescope/telescope-file-browser.nvim' -- file explorer
   use 'vim-airline/vim-airline'                    -- airline tabline
   use 'lewis6991/gitsigns.nvim'                    -- git
+  use 'nvim-treesitter/nvim-treesitter'            -- treesitter
+  use 'christoomey/vim-tmux-navigator'             -- tmux
   -- JavaScript / TypeScript
   use 'yuezk/vim-js'                               -- javascript
   use 'MaxMEllon/vim-jsx-pretty'                   -- jsx
