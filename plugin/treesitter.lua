@@ -1,8 +1,5 @@
 local status, treesitter = pcall(require, 'nvim-treesitter.configs')
-
-if (not status) then
-  return
-end
+if not status then return end
 
 treesitter.setup({
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
@@ -44,4 +41,12 @@ treesitter.setup({
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+
+  ident = { enable = true },
+
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  }
 })

@@ -1,6 +1,5 @@
 local keymap = vim.keymap
 
-keymap.set('n', 'Q', ':q!<cr>')
 keymap.set('n', 'r', ':redo<cr>')
 keymap.set('n', '<f1>', '<nop>')
 keymap.set('i', '<f1>', '<nop>')

@@ -15,7 +15,17 @@ vim.opt.inccommand = 'nosplit'
 vim.opt.conceallevel = 0
 vim.opt.signcolumn = 'yes'
 vim.diagnostic.config {
-  float = { border = "rounded" },
+  virtual_text = true,
+  signs = true,
+  update_in_insert = true,
+  underline = true,
+  severity_sort = true,
+  float = {
+      border = 'rounded',
+      source = 'always',
+      header = '',
+      prefix = '',
+  },
 }
 
 -- indenting
@@ -38,3 +48,11 @@ vim.api.nvim_set_option('formatoptions', formatoptions)
 
 -- languages
 vim.cmd('au BufRead,BufNewFile *.h set filetype=c')
+
+-- providers
+-- TODO check python is available via asdf before setting these
+vim.g.python_host_prog = '~/.asdf/installs/python/2.7.18/bin/python'
+vim.g.python3_host_prog = '~/.asdf/installs/python/3.12.2/bin/python'
+
+-- updatetime
+vim.api.nvim_set_option('updatetime', 300)

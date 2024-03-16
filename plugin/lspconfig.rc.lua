@@ -1,31 +1,21 @@
 local status, nvim_lsp = pcall(require, 'lspconfig')
+if not status then return end
 
-if (not status) then
-  return
-end
-
-local protocol = require('vim.lsp.protocol')
-
+-- default on_attach, TODO check if I actually need this
 local on_attach = function(client, bufnr)
-  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
+  vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.format()')
 end
-
--- set up completion using nvim_cmp with LSP source
-local capabilities = require('cmp_nvim_lsp').default_capabilities(
-  vim.lsp.protocol.make_client_capabilities()
-)
 
 -- generic language server for filling in the gaps of other LSPs
 nvim_lsp.efm.setup {
   on_attach = on_attach,
   filetypes = {
     'python',
-    'rust',
   },
   init_options = {documentFormatting = true},
 }
 
--- C
+-- c
 nvim_lsp.clangd.setup {
   on_attach = on_attach,
 }
@@ -35,7 +25,6 @@ nvim_lsp.pyright.setup {
    on_attach = on_attach,
    filetypes = { 'python' },
    cmd = { 'pyright-langserver', '--stdio' },
-   capabilities = capabilities,
  }
 
 -- typescript
@@ -48,7 +37,6 @@ nvim_lsp.gopls.setup {
   on_attach = on_attach,
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
   cmd = { 'gopls' },
-  capabilities = capabilities,
 }
 
 -- astro
@@ -56,7 +44,6 @@ nvim_lsp.astro.setup {
   on_attach = on_attach,
   filetypes = { 'astro' },
   cmd = { 'npx', 'astro-ls', '--stdio' },
-  capabilities = capabilities,
 }
 
 -- Global mappings.

@@ -1,53 +1,70 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
+-- check if packer is downloaded, and if not, download it
+-- returns true if packer was bootstrapped
+local ensure_packer_is_installed = function()
+  -- get path to where packer should be installed
+  local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+
+  -- check if packer is already installed
+  if vim.fn.empty(install_path) == 0 then
+    return false
   end
-  return false
+
+  -- install packer
+  vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  -- source packer
+  vim.cmd('packadd packer.nvim')
+  return true
 end
 
-local packer_bootstrap = ensure_packer()
-
+local packer_bootstrapped = ensure_packer_is_installed()
 local status, packer = pcall(require, 'packer')
 
-if (not status) then
+if not status then
   print('Packer is not installed')
   return
 end
 
-vim.cmd [[packadd packer.nvim]]
-
 packer.startup(function(use)
-  -- General
-  use 'wbthomason/packer.nvim'                     -- package manager
-  use 'wdhg/dragon-energy'                         -- colorscheme
-  use 'onsails/lspkind-nvim'                       -- vscode-like pictograms
-  use 'hrsh7th/cmp-buffer'                         -- nvim-cmp source for buffer words
-  use 'hrsh7th/cmp-nvim-lsp'                       -- nvim-cmp source for neovim's built-in LSP
-  use 'hrsh7th/nvim-cmp'                           -- code completion
-  use 'neovim/nvim-lspconfig'                      -- configurations for nvim lsp
-  use 'L3MON4D3/LuaSnip'                           -- snippet engine
+  -- package management
+  use 'wbthomason/packer.nvim'  -- this keeps packer up to date
+  use 'williamboman/mason.nvim' -- package manager for LSPs, DAPs, linters, and formatters
+
+  -- LSP
+  use 'williamboman/mason-lspconfig.nvim' -- bridge mason and lspconfig so they work together
+  use 'neovim/nvim-lspconfig'             -- configurations for nvim lsp
+  use 'onsails/lspkind-nvim'              -- vscode-like pictograms for lsp
+
+  -- code completion
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use 'hrsh7th/cmp-vsnip'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/vim-vsnip'
+
+  -- visuals
+  use 'wdhg/dragon-energy'      -- colorscheme
+  use 'vim-airline/vim-airline' -- airline tabline
+
+  -- telescope
   use 'nvim-lua/plenary.nvim'                      -- common utilities, used by telescope
-  use 'mfussenegger/nvim-dap'                      -- debug adapter protocol
   use 'nvim-telescope/telescope.nvim'              -- fuzzy finder
   use 'nvim-telescope/telescope-file-browser.nvim' -- file explorer
-  use 'vim-airline/vim-airline'                    -- airline tabline
-  use 'lewis6991/gitsigns.nvim'                    -- git
-  use 'nvim-treesitter/nvim-treesitter'            -- treesitter
-  use 'christoomey/vim-tmux-navigator'             -- tmux
-  -- JavaScript / TypeScript
-  use 'yuezk/vim-js'                               -- javascript
-  use 'MaxMEllon/vim-jsx-pretty'                   -- jsx
-  use 'wuelnerdotexe/vim-astro'                    -- astro
-  -- Rust
-  use 'simrat39/rust-tools.nvim'                   -- rust
-  -- GLSL
-  use 'tikhomirov/vim-glsl'                        -- GLSL syntax highlight
 
-  if packer_bootstrap then
-    require('packer').sync()
+  -- misc
+  use 'nvim-treesitter/nvim-treesitter' -- treesitter
+  use 'christoomey/vim-tmux-navigator'  -- tmux
+  use 'lewis6991/gitsigns.nvim'         -- git
+  use 'puremourning/vimspector'         -- debugger
+  use 'windwp/nvim-autopairs'           -- autopairs
+
+  -- rust
+  use 'mrcjkb/rustaceanvim' -- general goodness for working in rust
+
+  -- if bootstrapped then sync all plugins
+  if packer_bootstrapped then
+    packer.sync()
   end
 end)
