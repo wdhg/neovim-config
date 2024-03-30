@@ -6,26 +6,13 @@ local on_attach = function(client, bufnr)
   vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.format()')
 end
 
--- generic language server for filling in the gaps of other LSPs
-nvim_lsp.efm.setup {
-  on_attach = on_attach,
-  filetypes = {
-    'python',
-  },
-  init_options = {documentFormatting = true},
-}
-
 -- c
 nvim_lsp.clangd.setup {
   on_attach = on_attach,
 }
 
 -- python
-nvim_lsp.pyright.setup {
-   on_attach = on_attach,
-   filetypes = { 'python' },
-   cmd = { 'pyright-langserver', '--stdio' },
- }
+nvim_lsp.pyright.setup{}
 
 -- typescript
 nvim_lsp.tsserver.setup {
@@ -45,6 +32,33 @@ nvim_lsp.astro.setup {
   filetypes = { 'astro' },
   cmd = { 'npx', 'astro-ls', '--stdio' },
 }
+
+-- tex
+nvim_lsp.texlab.setup {
+  auxDirectory = ".",
+  bibtexFormatter = "texlab",
+  build = {
+    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+    executable = "latexmk",
+    forwardSearchAfter = false,
+    onSave = false
+  },
+  chktex = {
+    onEdit = false,
+    onOpenAndSave = false
+  },
+  diagnosticsDelay = 300,
+  formatterLineLength = 80,
+  forwardSearch = {
+    args = {}
+  },
+  latexFormatter = "latexindent",
+  latexindent = {
+    modifyLineBreaks = false
+  }
+}
+
+nvim_lsp.cssls.setup {}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

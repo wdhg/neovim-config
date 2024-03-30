@@ -53,6 +53,7 @@ vim.cmd('au BufRead,BufNewFile *.h set filetype=c')
 -- TODO check python is available via asdf before setting these
 vim.g.python_host_prog = '~/.asdf/installs/python/2.7.18/bin/python'
 vim.g.python3_host_prog = '~/.asdf/installs/python/3.12.2/bin/python'
+vim.g.node_host_prog = '~/.asdf/installs/nodejs/21.6.2/bin/neovim-node-host'
 
 -- updatetime
 vim.api.nvim_set_option('updatetime', 300)
