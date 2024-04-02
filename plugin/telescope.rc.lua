@@ -10,19 +10,19 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 telescope.setup {
-  extensions = {
-    file_browser = {
-      -- theme = 'ivy',
-      -- disables netrw and use telescope-file-browser in its place
-      hijack_netrw = true,
-      mappings = {
-        ['i'] = {
-        },
-        ['n'] = {
-        },
-      },
-    },
-  },
+	extensions = {
+		file_browser = {
+			-- theme = 'ivy',
+			-- disables netrw and use telescope-file-browser in its place
+			hijack_netrw = true,
+			mappings = {
+				['i'] = {
+				},
+				['n'] = {
+				},
+			},
+		},
+	},
 }
 
 telescope.load_extension('file_browser')

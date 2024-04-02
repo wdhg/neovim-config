@@ -2,13 +2,13 @@ local status, mason = pcall(require, 'mason')
 if not status then return end
 
 mason.setup({
-    ui = {
-        icons = {
-            package_installed = '+',
-            package_pending = '~',
-            package_uninstalled = '-',
-        },
-    }
+	ui = {
+		icons = {
+			package_installed = '+',
+			package_pending = '~',
+			package_uninstalled = '-',
+		},
+	}
 })
 
 local status, mason_lspconfig = pcall(require, 'mason-lspconfig')

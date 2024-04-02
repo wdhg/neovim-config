@@ -15,17 +15,17 @@ vim.opt.inccommand = 'nosplit'
 vim.opt.conceallevel = 0
 vim.opt.signcolumn = 'yes'
 vim.diagnostic.config {
-  virtual_text = true,
-  signs = true,
-  update_in_insert = true,
-  underline = true,
-  severity_sort = true,
-  float = {
-      border = 'rounded',
-      source = 'always',
-      header = '',
-      prefix = '',
-  },
+	virtual_text = true,
+	signs = true,
+	update_in_insert = true,
+	underline = true,
+	severity_sort = true,
+	float = {
+			border = 'rounded',
+			source = 'always',
+			header = '',
+			prefix = '',
+	},
 }
 
 -- indenting

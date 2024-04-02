@@ -4,7 +4,7 @@ if not status then return end
 local telekasten_home = vim.fn.expand('~/zettelkasten')
 
 telekasten.setup {
-  home = telekasten_home,
+	home = telekasten_home,
 }
 
 -- Launch panel if nothing is typed after <leader>z
@@ -22,11 +22,11 @@ vim.keymap.set('n', '<leader>zI', '<cmd>Telekasten insert_img_link<CR>')
 
 -- Call insert link automatically when we start typing a link
 function tk_insert_link()
-  local file_path = vim.fn.expand('%')
-  if file_path:find('^' .. telekasten_home) ~= nil then
-    local bufnr = vim.api.nvim_get_current_buf()
-    vim.keymap.set('i', '[[', '<cmd>Telekasten insert_link<CR>', { silent = true, buffer = bufnr } )
-  end
+	local file_path = vim.fn.expand('%')
+	if file_path:find('^' .. telekasten_home) ~= nil then
+		local bufnr = vim.api.nvim_get_current_buf()
+		vim.keymap.set('i', '[[', '<cmd>Telekasten insert_link<CR>', { silent = true, buffer = bufnr } )
+	end
 end
 
 vim.cmd('autocmd BufEnter * lua tk_insert_link()')
