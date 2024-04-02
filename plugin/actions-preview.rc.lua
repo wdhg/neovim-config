@@ -1,13 +1,6 @@
 local status, actions_preview = pcall(require, 'actions-preview')
 if not status then return end
 
-vim.keymap.set('n', '<leader>a', function() 
-
-    actions_preview.code_actions()
-    print('aaaa')
-  end
-  )
-
 actions_preview.setup {
   -- options for vim.diff(): https://neovim.io/doc/user/lua.html#vim.diff()
   diff = {
@@ -41,3 +34,5 @@ actions_preview.setup {
     }
   ),
 }
+
+vim.keymap.set('n', '<leader>a', actions_preview.code_actions)
