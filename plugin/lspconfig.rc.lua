@@ -60,6 +60,17 @@ nvim_lsp.texlab.setup {
 
 nvim_lsp.cssls.setup {}
 
+nvim_lsp.ltex.setup {
+  settings = {
+    ltex = {
+      language = "en-GB",
+      additionalRules = {
+        languageModel = "$HOME/.languagetool/n-gram/",
+      },
+    },
+  },
+}
+
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)

@@ -52,6 +52,7 @@ packer.startup(function(use)
   use 'nvim-lua/plenary.nvim'                      -- common utilities, used by telescope
   use 'nvim-telescope/telescope.nvim'              -- fuzzy finder
   use 'nvim-telescope/telescope-file-browser.nvim' -- file explorer
+  use 'aznhe21/actions-preview.nvim'               -- better LSP code action menu
 
   -- misc
   use 'nvim-treesitter/nvim-treesitter' -- treesitter
