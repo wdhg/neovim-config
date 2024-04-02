@@ -26,13 +26,13 @@ end
 
 packer.startup(function(use)
 	-- package management
-	use 'wbthomason/packer.nvim'	-- this keeps packer up to date
+	use 'wbthomason/packer.nvim'  -- this keeps packer up to date
 	use 'williamboman/mason.nvim' -- package manager for LSPs, DAPs, linters, and formatters
 
 	-- LSP
 	use 'williamboman/mason-lspconfig.nvim' -- bridge mason and lspconfig so they work together
-	use 'neovim/nvim-lspconfig'							-- configurations for nvim lsp
-	use 'onsails/lspkind-nvim'							-- vscode-like pictograms for lsp
+	use 'neovim/nvim-lspconfig'             -- configurations for nvim lsp
+	use 'onsails/lspkind-nvim'              -- vscode-like pictograms for lsp
 
 	-- code completion
 	use 'hrsh7th/nvim-cmp'
@@ -45,22 +45,22 @@ packer.startup(function(use)
 	use 'hrsh7th/vim-vsnip'
 
 	-- visuals
-	use 'wdhg/dragon-energy'			-- colorscheme
+	use 'wdhg/dragon-energy'      -- colorscheme
 	use 'vim-airline/vim-airline' -- airline tabline
 
 	-- telescope
-	use 'nvim-lua/plenary.nvim'											 -- common utilities, used by telescope
-	use 'nvim-telescope/telescope.nvim'							 -- fuzzy finder
+	use 'nvim-lua/plenary.nvim'                      -- common utilities, used by telescope
+	use 'nvim-telescope/telescope.nvim'              -- fuzzy finder
 	use 'nvim-telescope/telescope-file-browser.nvim' -- file explorer
-	use 'aznhe21/actions-preview.nvim'							 -- better LSP code action menu
-	use 'renerocksai/telekasten.nvim'								 -- zettelkasten
+	use 'aznhe21/actions-preview.nvim'               -- better LSP code action menu
+	use 'renerocksai/telekasten.nvim'                -- zettelkasten
 
 	-- misc
 	use 'nvim-treesitter/nvim-treesitter' -- treesitter
-	use 'christoomey/vim-tmux-navigator'	-- tmux
-	use 'lewis6991/gitsigns.nvim'					-- git
-	use 'puremourning/vimspector'					-- debugger
-	use 'windwp/nvim-autopairs'						-- autopairs
+	use 'christoomey/vim-tmux-navigator'  -- tmux
+	use 'lewis6991/gitsigns.nvim'         -- git
+	use 'puremourning/vimspector'         -- debugger
+	use 'windwp/nvim-autopairs'           -- autopairs
 
 	-- rust
 	use 'mrcjkb/rustaceanvim' -- general goodness for working in rust
