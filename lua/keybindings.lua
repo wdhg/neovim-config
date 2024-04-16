@@ -17,6 +17,16 @@ local run_code = function(type)
 				vim.fn.system('tmux send-keys -t 2 "cargo run" Enter')
 			elseif type == 'test' then
 				vim.fn.system('tmux send-keys -t 2 "cargo test" Enter')
+			elseif type == 'build' then
+				vim.fn.system('tmux send-keys -t 2 "cargo build" Enter')
+			end
+		elseif ft == 'c' then
+			if type == 'run' then
+				vim.fn.system('tmux send-keys -t 2 "make run" Enter')
+			elseif type == 'test' then
+				vim.fn.system('tmux send-keys -t 2 "make test" Enter')
+			elseif type == 'build' then
+				vim.fn.system('tmux send-keys -t 2 "make build" Enter')
 			end
 		end
 	end
