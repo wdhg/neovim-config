@@ -60,7 +60,10 @@ packer.startup(function(use)
 	use 'christoomey/vim-tmux-navigator'  -- tmux
 	use 'lewis6991/gitsigns.nvim'         -- git
 	use 'puremourning/vimspector'         -- debugger
-	use 'windwp/nvim-autopairs'           -- autopairs
+	use 'windwp/nvim-autopairs'           -- nvim-autopair
+	use 'MunifTanjim/nui.nvim'
+	use 'rcarriga/nvim-notify'
+	use 'nvim-tree/nvim-web-devicons'
 
 	-- rust
 	use 'mrcjkb/rustaceanvim' -- general goodness for working in rust
