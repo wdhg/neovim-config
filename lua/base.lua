@@ -32,9 +32,11 @@ vim.diagnostic.config {
 vim.opt.cindent = true
 vim.opt.expandtab = false
 vim.opt.smarttab = true
-vim.opt.tabstop = 2
+vim.opt.tabstop = 8
 vim.opt.softtabstop = 0
-vim.opt.shiftwidth = 0
+vim.opt.shiftwidth = 8
+vim.opt.list = true
+vim.opt.listchars = 'tab:--|,trail:_'
 
 -- functionality
 vim.opt.mouse = 'a'
