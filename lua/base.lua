@@ -37,6 +37,8 @@ vim.opt.softtabstop = 0
 vim.opt.shiftwidth = 8
 vim.opt.list = true
 vim.opt.listchars = 'tab:--|,trail:_'
+vim.opt.breakindent = true
+vim.opt.linebreak = true
 
 -- functionality
 vim.opt.mouse = 'a'
@@ -44,9 +46,7 @@ vim.opt.exrc = true
 vim.opt.secure = true
 
 -- formatoptions
-local formatoptions = vim.api.nvim_get_option('formatoptions')
-formatoptions = formatoptions:gsub('o', '')
-vim.api.nvim_set_option('formatoptions', formatoptions)
+vim.cmd('au FileType * set formatoptions-=cro')
 
 -- languages
 vim.cmd('au BufRead,BufNewFile *.h set filetype=c')
