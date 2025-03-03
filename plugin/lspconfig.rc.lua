@@ -14,9 +14,9 @@ nvim_lsp.clangd.setup {
 nvim_lsp.pyright.setup{}
 
 -- typescript
-nvim_lsp.tsserver.setup {
-	on_attach = on_attach,
-}
+-- nvim_lsp.tsserver.setup {
+-- 	on_attach = on_attach,
+-- }
 
 -- go
 nvim_lsp.gopls.setup {
