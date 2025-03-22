@@ -44,6 +44,7 @@ vim.opt.linebreak = true
 vim.opt.mouse = 'a'
 vim.opt.exrc = true
 vim.opt.secure = true
+vim.opt.foldmethod = 'marker'
 
 -- formatoptions
 vim.cmd('au FileType * set formatoptions-=cro')
