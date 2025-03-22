@@ -1,8 +1,15 @@
 local status, cmp = pcall(require, 'cmp')
 if not status then return end
 
+local status, cmp_autopairs = pcall(require, 'nvim-autopairs.completion.cmp')
+if not status then return end
+
 local lspkind = require('lspkind')
 
+cmp.event:on(
+	'confirm_done',
+	cmp_autopairs.on_confirm_done()
+)
 cmp.setup({
 	snippet = {
 		expand = function(args)
@@ -25,17 +32,17 @@ cmp.setup({
 		})
 	}),
 	sources = cmp.config.sources({
-		{ name = 'path' },															-- file paths
-		{ name = 'nvim_lsp', keyword_length = 3 },			-- from language server
-		{ name = 'nvim_lsp_signature_help'},						-- display function signatures with current parameter emphasized
-		{ name = 'nvim_lua', keyword_length = 2},				-- complete neovim's Lua runtime API such vim.lsp.*
-		{ name = 'buffer', keyword_length = 2 },				-- source current buffer
-		{ name = 'vsnip', keyword_length = 2 },					-- nvim-cmp source for vim-vsnip 
-		{ name = 'calc'},																-- source for math calculation
+		{ name = 'path' },                         -- file paths
+		{ name = 'nvim_lsp', keyword_length = 3 }, -- from language server
+		{ name = 'nvim_lsp_signature_help'},       -- display function signatures with current parameter emphasized
+		{ name = 'nvim_lua', keyword_length = 2},  -- complete neovim's Lua runtime API such vim.lsp.*
+		{ name = 'buffer', keyword_length = 2 },   -- source current buffer
+		{ name = 'vsnip', keyword_length = 2 },    -- nvim-cmp source for vim-vsnip 
+		{ name = 'calc'},                          -- source for math calculation
 	}),
 	window = {
-			completion = cmp.config.window.bordered(),
-			documentation = cmp.config.window.bordered(),
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
 	},
 	formatting = {
 		format = lspkind.cmp_format({ with_text = false, maxwidth = 50 }),
