@@ -21,10 +21,10 @@ vim.diagnostic.config {
 	underline        = true,
 	severity_sort    = true,
 	float            = {
-			border = 'rounded',
-			source = 'always',
-			header = '',
-			prefix = '',
+		border = 'rounded',
+		source = 'always',
+		header = '',
+		prefix = '',
 	},
 }
 
