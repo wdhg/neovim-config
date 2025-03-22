@@ -64,6 +64,7 @@ packer.startup(function(use)
 	use 'rcarriga/nvim-notify'
 	use 'nvim-tree/nvim-web-devicons'
 	use 'tikhomirov/vim-glsl'             -- GLSL
+	use 'godlygeek/tabular'               -- aligning on characters
 
 	-- rust
 	use 'mrcjkb/rustaceanvim' -- general goodness for working in rust
