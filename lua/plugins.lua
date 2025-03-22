@@ -57,7 +57,6 @@ packer.startup(function(use)
 
 	-- misc
 	use 'nvim-treesitter/nvim-treesitter' -- treesitter
-	use 'christoomey/vim-tmux-navigator'  -- tmux
 	use 'lewis6991/gitsigns.nvim'         -- git
 	use 'windwp/nvim-autopairs'           -- nvim-autopair
 	use 'MunifTanjim/nui.nvim'
