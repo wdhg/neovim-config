@@ -63,6 +63,7 @@ packer.startup(function(use)
 	use 'MunifTanjim/nui.nvim'
 	use 'rcarriga/nvim-notify'
 	use 'nvim-tree/nvim-web-devicons'
+	use 'tikhomirov/vim-glsl'             -- GLSL
 
 	-- rust
 	use 'mrcjkb/rustaceanvim' -- general goodness for working in rust
