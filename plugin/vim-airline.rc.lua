@@ -2,9 +2,13 @@ vim.g.airline_powerline_fonts = 1
 vim.g.airline_extensions      = { 'tabline', 'hunks' }
 
 function get_git_branch()
+	-- Don't run for non-normal buffer
+	if vim.api.nvim_get_option_value('buftype', {}) ~= '' then
+		return ''
+	end
 	-- Get directory of open file so we can run the command in that directory
 	local filename = vim.api.nvim_buf_get_name(0)         -- Get the full path of the current buffer
-	local dir      = vim.fn.fnamemodify(filename, ":p:h") -- Extract the directory from the file path
+	local dir      = vim.fn.fnamemodify(filename, ':p:h') -- Extract the directory from the file path
 	local opts     = {
 		text = true, -- Replace \r\n with \n in output
 		cwd  = dir,  -- Change directory of executed command to parent directory of open file
