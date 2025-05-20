@@ -26,8 +26,7 @@ end
 
 packer.startup(function(use)
 	-- package management
-	use 'wbthomason/packer.nvim'  -- this keeps packer up to date
-	use 'williamboman/mason.nvim' -- package manager for LSPs, DAPs, linters, and formatters
+	use 'wbthomason/packer.nvim' -- this keeps packer up to date
 
 	-- LSP
 	use 'williamboman/mason-lspconfig.nvim' -- bridge mason and lspconfig so they work together
@@ -36,36 +35,28 @@ packer.startup(function(use)
 
 	-- code completion
 	use 'hrsh7th/nvim-cmp'
-	use 'hrsh7th/cmp-nvim-lsp'
-	use 'hrsh7th/cmp-nvim-lua'
-	use 'hrsh7th/cmp-nvim-lsp-signature-help'
-	use 'hrsh7th/cmp-vsnip'
-	use 'hrsh7th/cmp-path'
-	use 'hrsh7th/cmp-buffer'
-	use 'hrsh7th/vim-vsnip'
+	use 'hrsh7th/cmp-nvim-lsp'                -- completion using LSP
+	use 'hrsh7th/cmp-nvim-lua'                -- Neovim Lua API completion
+	use 'hrsh7th/cmp-nvim-lsp-signature-help' -- type signatures preview
+	use 'hrsh7th/cmp-path'                    -- completion for paths
+	use 'hrsh7th/cmp-buffer'                  -- completion for words in buffer
 
-	-- visuals
-	use 'wdhg/dragon-energy'      -- colorscheme
-	use 'vim-airline/vim-airline' -- airline tabline
+	-- snippet engine (needed by nvim-cmp)
+	use 'hrsh7th/cmp-vsnip'
+	use 'hrsh7th/vim-vsnip'
 
 	-- telescope
 	use 'nvim-lua/plenary.nvim'                      -- common utilities, used by telescope
 	use 'nvim-telescope/telescope.nvim'              -- fuzzy finder
 	use 'nvim-telescope/telescope-file-browser.nvim' -- file explorer
-	use 'aznhe21/actions-preview.nvim'               -- better LSP code action menu
+	use 'aznhe21/actions-preview.nvim'               -- better LSP code action menu using telescope
 
 	-- misc
 	use 'nvim-treesitter/nvim-treesitter' -- treesitter
-	use 'lewis6991/gitsigns.nvim'         -- git
+	use 'lewis6991/gitsigns.nvim'         -- git integration
 	use 'windwp/nvim-autopairs'           -- nvim-autopair
-	use 'MunifTanjim/nui.nvim'
-	use 'rcarriga/nvim-notify'
-	use 'nvim-tree/nvim-web-devicons'
-	use 'tikhomirov/vim-glsl'             -- GLSL
+	use 'nvim-tree/nvim-web-devicons'     -- nerdfont icons for plugins
 	use 'godlygeek/tabular'               -- aligning on characters
-
-	-- rust
-	use 'mrcjkb/rustaceanvim' -- general goodness for working in rust
 
 	-- if bootstrapped then sync all plugins
 	if packer_bootstrapped then

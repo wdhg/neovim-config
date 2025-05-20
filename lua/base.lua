@@ -10,7 +10,6 @@ vim.opt.fileencoding  = 'UTF-8'
 vim.opt.number       = true
 vim.opt.cursorline   = true
 vim.opt.list         = true
-vim.opt.colorcolumn  = '100'
 vim.opt.inccommand   = 'nosplit'
 vim.opt.conceallevel = 0
 vim.opt.signcolumn   = 'yes'
@@ -36,7 +35,7 @@ vim.opt.tabstop     = 8
 vim.opt.softtabstop = 0
 vim.opt.shiftwidth  = 8
 vim.opt.list        = true
-vim.opt.listchars   = 'tab:▏ ,trail:█'
+vim.opt.listchars   = 'tab:▏ ,trail:▸'
 vim.opt.breakindent = true
 vim.opt.linebreak   = true
 

@@ -1,4 +1,4 @@
 require('base')
 require('plugins')
-require('highlights')
+require('syntax')
 require('keybindings')
