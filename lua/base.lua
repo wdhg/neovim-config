@@ -35,7 +35,7 @@ vim.opt.tabstop     = 8
 vim.opt.softtabstop = 0
 vim.opt.shiftwidth  = 8
 vim.opt.list        = true
-vim.opt.listchars   = 'tab:▏ ,trail:▸'
+vim.opt.listchars   = 'tab:│ ,trail:▸'
 vim.opt.breakindent = true
 vim.opt.linebreak   = true
 
