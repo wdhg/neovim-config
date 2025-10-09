@@ -1,13 +1,10 @@
-local status, nvim_lsp = pcall(require, 'lspconfig')
-if not status then return end
-
 -- default on_attach, TODO check if I actually need this
 local on_attach = function(client, bufnr)
 	vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.format()')
 end
 
 -- c
-nvim_lsp.clangd.setup {
+vim.lsp.config('clangd', {
 	cmd = {
 		"clangd",
 		"--background-index",
@@ -15,10 +12,82 @@ nvim_lsp.clangd.setup {
 		"--header-insertion=iwyu",
 		"--header-insertion-decorators",
 	},
-}
+})
+vim.lsp.enable('clangd')
 
 -- python
-nvim_lsp.pyright.setup{}
+local function get_ruff_cmd()
+	-- Check if uv is being used in the project
+	if vim.fn.filereadable('pyproject.toml') == 1 or vim.fn.filereadable('uv.lock') == 1 then
+		if vim.fn.executable('uv') == 1 then
+			return { 'uv', 'run', 'ruff', 'server', '--preview' }
+		end
+	end
+	
+	-- Check if .python-version exists (pyenv)
+	if vim.fn.filereadable('.python-version') == 1 then
+		local pyenv_root = vim.fn.system('pyenv root 2>/dev/null'):gsub('\n', '')
+		if vim.v.shell_error == 0 and pyenv_root ~= '' then
+			local python_version = vim.fn.system('pyenv version-name 2>/dev/null'):gsub('\n', '')
+			if vim.v.shell_error == 0 and python_version ~= '' then
+				local pyenv_ruff = pyenv_root .. '/versions/' .. python_version .. '/bin/ruff'
+				if vim.fn.executable(pyenv_ruff) == 1 then
+					return { pyenv_ruff, 'server', '--preview' }
+				end
+			end
+		end
+	end
+	
+	-- Fallback to system ruff
+	if vim.fn.executable('ruff') == 1 then
+		return { 'ruff', 'server', '--preview' }
+	end
+	
+	return nil
+end
+
+local function get_pyright_cmd()
+	local uv_tool = vim.fn.system('uv tool dir 2>/dev/null'):gsub('\n', '')
+	if vim.v.shell_error == 0 and uv_tool ~= '' then
+		local uv_pyright = uv_tool .. '/pyright/bin/pyright-langserver'
+		if vim.fn.executable(uv_pyright) == 1 then
+			return { uv_pyright, '--stdio' }
+		end
+	end
+	return { 'pyright-langserver', '--stdio' }
+end
+
+-- ruff for linting and formatting
+local ruff_cmd = get_ruff_cmd()
+if ruff_cmd then
+	vim.lsp.config('ruff', {
+		cmd = ruff_cmd,
+		init_options = {
+			settings = {
+				args = {},
+			}
+		}
+	})
+	vim.lsp.enable('ruff')
+end
+
+-- pyright for semantic features (type checking, go-to-def, rename, etc)
+vim.lsp.config('pyright', {
+	cmd = get_pyright_cmd(),
+	settings = {
+		pyright = {
+			-- Disable pyright's formatting and import organizing since ruff handles this
+			disableOrganizeImports = true,
+		},
+		python = {
+			analysis = {
+				-- Disable pyright's linting since ruff handles this
+				typeCheckingMode = "basic",
+			}
+		}
+	}
+})
+vim.lsp.enable('pyright')
 
 -- typescript
 -- nvim_lsp.tsserver.setup {
@@ -26,21 +95,23 @@ nvim_lsp.pyright.setup{}
 -- }
 
 -- go
-nvim_lsp.gopls.setup {
+vim.lsp.config('gopls', {
 	on_attach = on_attach,
 	filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
 	cmd = { 'gopls' },
-}
+})
+vim.lsp.enable('gopls')
 
 -- astro
-nvim_lsp.astro.setup {
+vim.lsp.config('astro', {
 	on_attach = on_attach,
 	filetypes = { 'astro' },
 	cmd = { 'npx', 'astro-ls', '--stdio' },
-}
+})
+vim.lsp.enable('astro')
 
 -- tex
-nvim_lsp.texlab.setup {
+vim.lsp.config('texlab', {
 	auxDirectory = ".",
 	bibtexFormatter = "texlab",
 	build = {
@@ -62,11 +133,13 @@ nvim_lsp.texlab.setup {
 	latexindent = {
 		modifyLineBreaks = false
 	}
-}
+})
+vim.lsp.enable('texlab')
 
-nvim_lsp.cssls.setup {}
+vim.lsp.config('cssls', {})
+vim.lsp.enable('cssls')
 
-nvim_lsp.ltex.setup {
+vim.lsp.config('ltex', {
 	settings = {
 		ltex = {
 			language = "en-GB",
@@ -75,7 +148,8 @@ nvim_lsp.ltex.setup {
 			},
 		},
 	},
-}
+})
+vim.lsp.enable('ltex')
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
