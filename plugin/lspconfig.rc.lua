@@ -8,6 +8,13 @@ end
 
 -- c
 nvim_lsp.clangd.setup {
+	cmd = {
+		"clangd",
+		"--background-index",
+		"--completion-style=detailed",
+		"--header-insertion=iwyu",
+		"--header-insertion-decorators",
+	},
 }
 
 -- python
