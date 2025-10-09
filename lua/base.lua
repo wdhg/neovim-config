@@ -52,9 +52,39 @@ vim.cmd('au FileType * set formatoptions-=cro')
 vim.cmd('au BufRead,BufNewFile *.h set filetype=c')
 
 -- providers
--- TODO check python is available via asdf before setting these
-vim.g.python_host_prog  = vim.fn.system('command -v python')
-vim.g.python3_host_prog = vim.fn.system('command -v python3')
+local function try_get_uv_python3()
+	if vim.fn.executable('uv') == 0 then
+		return nil
+	end
+
+	local uv_python = vim.fn.system('uv python find 2>/dev/null'):gsub('\n', '')
+	if vim.v.shell_error == 0 and uv_python ~= '' then
+		return uv_python
+	end
+
+	return nil
+end
+
+local function try_get_pyenv_python3()
+	if vim.fn.executable('pyenv') == 0 then
+		return nil
+	end
+
+	local pyenv_python = vim.fn.system('pyenv which python 2>/dev/null'):gsub('\n', '')
+	if vim.v.shell_error == 0 and pyenv_python ~= '' then
+		return pyenv_python
+	end
+
+	return nil
+end
+
+local function get_python3_host()
+	return try_get_uv_python3()
+		or try_get_pyenv_python3()
+		or vim.fn.exepath('python3')
+end
+
+vim.g.python3_host_prog = get_python3_host()
 vim.g.node_host_prog    = vim.fn.system('command -v neovim-node-host')
 
 -- updatetime
