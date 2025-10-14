@@ -58,9 +58,10 @@ packer.startup(function(use)
 	use 'nvim-tree/nvim-web-devicons'     -- nerdfont icons for plugins
 	use 'godlygeek/tabular'               -- aligning on characters
 
+	use 'github/copilot.vim'
+
 	-- work plugins
 	if IS_WORK_DEVICE then
-		use 'github/copilot.vim'
 		use 'memgraph/cypher.vim'
 	end
 
