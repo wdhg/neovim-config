@@ -56,6 +56,8 @@ local run_last_cmd = function()
 	else
 		-- Screen is landscape, divide vertically
 		vim.cmd("botright vnew")
+		-- Resize to be 1/3 of the screen
+		vim.cmd("vertical resize " .. math.floor(vim.o.columns / 3))
 	end
 
 	local buf = vim.api.nvim_get_current_buf()
