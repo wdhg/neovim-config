@@ -40,7 +40,7 @@ vim.opt.breakindent = true
 vim.opt.linebreak   = true
 
 -- functionality
-vim.opt.mouse      = ''
+vim.opt.mouse      = 'a'
 vim.opt.exrc       = true
 vim.opt.secure     = true
 vim.opt.foldmethod = 'marker'
