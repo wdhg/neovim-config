@@ -1,7 +1,5 @@
 -- Set llama.vim global variables
 
-print("Hello")
-
 -- In neovim, to create a new global variable, you need to use the vim.g table
 -- For example, to create a new global variable called llama_config, you would use the following code:
 vim.g.llama_config = {
