@@ -61,7 +61,7 @@ packer.startup(function(use)
 	use 'godlygeek/tabular'               -- aligning on characters
 
 	-- use 'github/copilot.vim'
-	use 'ggml-org/llama.vim'
+	-- use 'ggml-org/llama.vim'
 	-- use 'David-Kunz/gen.nvim'
 	-- use '~/dev/Ollama-Copilot'
 
