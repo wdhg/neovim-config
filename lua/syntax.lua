@@ -29,6 +29,7 @@ hi({ fg = '#ff0000',  bg = ''        }, {'GitGutterDelete'})
 -- Tree sitter 
 hi({ fg = '#dfdbe4',  bg = '#354C1A' }, {'Comment', '@comment'})
 hi({ fg = '#7ABC62',  bg = ''        }, {'Statement', '@keyword'})
+hi({ fg = '#7ABC62',  bg = ''        }, {'PreProc', '@keyword.import', '@keyword.directive', '@keyword.directive.define'})
 hi({ fg = '#D5E24C',  bg = ''        }, {'@string'})
 hi({ fg = '#9d8f78',  bg = ''        }, {'@operator'})
 hi({ fg = '#7EDDC3',  bg = ''        }, {'@boolean', '@number'})
