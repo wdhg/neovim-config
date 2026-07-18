@@ -49,16 +49,21 @@ packer.startup(function(use)
 	use 'nvim-lua/plenary.nvim'                      -- common utilities, used by telescope
 	use 'nvim-telescope/telescope.nvim'              -- fuzzy finder
 	use 'nvim-telescope/telescope-file-browser.nvim' -- file explorer
+	use 'nvim-telescope/telescope-ui-select.nvim'
 	use 'aznhe21/actions-preview.nvim'               -- better LSP code action menu using telescope
 
 	-- misc
 	use 'nvim-treesitter/nvim-treesitter' -- treesitter
 	use 'lewis6991/gitsigns.nvim'         -- git integration
+	use 'tpope/vim-fugitive'              -- more git integratio
 	use 'windwp/nvim-autopairs'           -- nvim-autopair
 	use 'nvim-tree/nvim-web-devicons'     -- nerdfont icons for plugins
 	use 'godlygeek/tabular'               -- aligning on characters
 
-	use 'github/copilot.vim'
+	-- use 'github/copilot.vim'
+	use 'ggml-org/llama.vim'
+	-- use 'David-Kunz/gen.nvim'
+	-- use '~/dev/Ollama-Copilot'
 
 	-- work plugins
 	if IS_WORK_DEVICE then

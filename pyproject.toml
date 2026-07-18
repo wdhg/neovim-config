@@ -1,0 +1,9 @@
+[project]
+name = "nvim"
+version = "0.1.0"
+description = "Python environment for project-agnostic dependencies required by Neovim"
+requires-python = ">=3.14"
+dependencies = [
+    "ollama>=0.6.1",
+    "pygls>=2.0.0",
+]

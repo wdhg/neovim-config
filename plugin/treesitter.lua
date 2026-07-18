@@ -1,4 +1,4 @@
-local status, treesitter = pcall(require, 'nvim-treesitter.configs')
+local status, treesitter = pcall(require, 'nvim-treesitter')
 if not status then return end
 
 treesitter.setup({
@@ -49,4 +49,9 @@ treesitter.setup({
 		extended_mode = true,
 		max_file_lines = nil,
 	}
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = { "c", "lua", "vim", "go", "rust", "python", "javascript", "typescript" },
+	callback = function() vim.treesitter.start() end,
 })

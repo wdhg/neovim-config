@@ -48,7 +48,7 @@ local run_last_cmd = function()
 	local current_win = vim.api.nvim_get_current_win()
 
 	-- Create a new window and buffer
-	if vim.o.lines * 2 > vim.o.columns then
+	if vim.o.lines * 2 < vim.o.columns then
 		-- Screen is portrait, divide horizontally
 		vim.cmd("botright new")
 		-- Resize to be either 1/3 of the screen or 20 lines tall, whatever is smaller

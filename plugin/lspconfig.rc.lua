@@ -4,16 +4,16 @@ local on_attach = function(client, bufnr)
 end
 
 -- c
-vim.lsp.config('clangd', {
-	cmd = {
-		"clangd",
-		"--background-index",
-		"--completion-style=detailed",
-		"--header-insertion=iwyu",
-		"--header-insertion-decorators",
-	},
-})
-vim.lsp.enable('clangd')
+-- vim.lsp.config('clangd', {
+-- 	cmd = {
+-- 		"clangd",
+-- 		"--background-index",
+-- 		"--completion-style=detailed",
+-- 		"--header-insertion=iwyu",
+-- 		"--header-insertion-decorators",
+-- 	},
+-- })
+-- vim.lsp.enable('clangd')
 
 -- python
 local function get_ruff_cmd()
@@ -47,13 +47,12 @@ local function get_ruff_cmd()
 end
 
 local function get_pyright_cmd()
-	local uv_tool = vim.fn.system('uv tool dir 2>/dev/null'):gsub('\n', '')
-	if vim.v.shell_error == 0 and uv_tool ~= '' then
-		local uv_pyright = uv_tool .. '/pyright/bin/pyright-langserver'
-		if vim.fn.executable(uv_pyright) == 1 then
-			return { uv_pyright, '--stdio' }
+	if vim.fn.filereadable('pyproject.toml') == 1 or vim.fn.filereadable('uv.lock') == 1 then
+		if vim.fn.executable('uv') == 1 then
+			return { 'uv', 'run', 'pyright-langserver', '--stdio' }
 		end
 	end
+
 	return { 'pyright-langserver', '--stdio' }
 end
 
