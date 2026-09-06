@@ -16,63 +16,68 @@ end
 -- vim.lsp.enable('clangd')
 
 -- python
-local function get_ruff_cmd()
-	-- Check if uv is being used in the project
-	if vim.fn.filereadable('pyproject.toml') == 1 or vim.fn.filereadable('uv.lock') == 1 then
-		if vim.fn.executable('uv') == 1 then
-			return { 'uv', 'run', 'ruff', 'server', '--preview' }
+-- Commands are resolved per-buffer when a python file opens, relative to the
+-- buffer's project root — not relative to nvim's launch directory. The
+-- FileType autocmd below runs before the clients spawn, so each project gets
+-- its own environment.
+local function ruff_cmd_for(root)
+	-- Project venv binary — works for any venv, uv-created or not
+	if root and vim.fn.executable(root .. '/.venv/bin/ruff') == 1 then
+		return { root .. '/.venv/bin/ruff', 'server', '--preview' }
+	end
+
+	-- Real uv project (has a lockfile): run inside its managed env
+	if root and vim.fn.filereadable(root .. '/uv.lock') == 1 and vim.fn.executable('uv') == 1 then
+		return { 'uv', 'run', '--directory', root, 'ruff', 'server', '--preview' }
+	end
+
+	-- pyenv-managed project
+	if root and vim.fn.filereadable(root .. '/.python-version') == 1 and vim.fn.executable('pyenv') == 1 then
+		local out = vim.system({ 'pyenv', 'which', 'ruff' }, { cwd = root }):wait()
+		if out.code == 0 and out.stdout ~= '' and vim.fn.executable(out.stdout:gsub('%s+', '')) == 1 then
+			return { out.stdout:gsub('%s+', ''), 'server', '--preview' }
 		end
 	end
-	
-	-- Check if .python-version exists (pyenv)
-	if vim.fn.filereadable('.python-version') == 1 then
-		local pyenv_root = vim.fn.system('pyenv root 2>/dev/null'):gsub('\n', '')
-		if vim.v.shell_error == 0 and pyenv_root ~= '' then
-			local python_version = vim.fn.system('pyenv version-name 2>/dev/null'):gsub('\n', '')
-			if vim.v.shell_error == 0 and python_version ~= '' then
-				local pyenv_ruff = pyenv_root .. '/versions/' .. python_version .. '/bin/ruff'
-				if vim.fn.executable(pyenv_ruff) == 1 then
-					return { pyenv_ruff, 'server', '--preview' }
-				end
-			end
-		end
-	end
-	
+
 	-- Fallback to system ruff
 	if vim.fn.executable('ruff') == 1 then
 		return { 'ruff', 'server', '--preview' }
 	end
-	
+
 	return nil
 end
 
-local function get_pyright_cmd()
-	if vim.fn.filereadable('pyproject.toml') == 1 or vim.fn.filereadable('uv.lock') == 1 then
-		if vim.fn.executable('uv') == 1 then
-			return { 'uv', 'run', 'pyright-langserver', '--stdio' }
-		end
+local function pyright_config_for(root)
+	local cmd
+	if root and vim.fn.filereadable(root .. '/uv.lock') == 1 and vim.fn.executable('uv') == 1 then
+		cmd = { 'uv', 'run', '--directory', root, 'pyright-langserver', '--stdio' }
+	else
+		cmd = { 'pyright-langserver', '--stdio' }
 	end
 
-	return { 'pyright-langserver', '--stdio' }
+	local config = { cmd = cmd }
+	-- Point pyright at the project's interpreter so imports resolve without uv
+	if root and vim.fn.filereadable(root .. '/.venv/bin/python') == 1 then
+		config.settings = {
+			python = {
+				pythonPath = root .. '/.venv/bin/python',
+			}
+		}
+	end
+	return config
 end
 
 -- ruff for linting and formatting
-local ruff_cmd = get_ruff_cmd()
-if ruff_cmd then
-	vim.lsp.config('ruff', {
-		cmd = ruff_cmd,
-		init_options = {
-			settings = {
-				args = {},
-			}
+vim.lsp.config('ruff', {
+	init_options = {
+		settings = {
+			args = {},
 		}
-	})
-	vim.lsp.enable('ruff')
-end
+	}
+})
 
 -- pyright for semantic features (type checking, go-to-def, rename, etc)
 vim.lsp.config('pyright', {
-	cmd = get_pyright_cmd(),
 	settings = {
 		pyright = {
 			-- Disable pyright's formatting and import organizing since ruff handles this
@@ -86,6 +91,27 @@ vim.lsp.config('pyright', {
 		}
 	}
 })
+
+vim.api.nvim_create_autocmd('FileType', {
+	group = vim.api.nvim_create_augroup('PythonLspCommands', {}),
+	pattern = 'python',
+	desc = 'Resolve python LSP commands from the buffer\'s project root',
+	callback = function(ev)
+		local root = vim.fs.root(ev.buf, { 'uv.lock', 'pyproject.toml', '.python-version', 'requirements.txt', 'setup.py', '.git' })
+
+		local ruff_cmd = ruff_cmd_for(root)
+		if ruff_cmd then
+			vim.lsp.config('ruff', { cmd = ruff_cmd })
+			vim.lsp.enable('ruff')
+		else
+			vim.lsp.enable('ruff', false)
+		end
+
+		vim.lsp.config('pyright', pyright_config_for(root))
+	end,
+})
+
+vim.lsp.enable('ruff')
 vim.lsp.enable('pyright')
 
 -- typescript
