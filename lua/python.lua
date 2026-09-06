@@ -35,13 +35,20 @@
 if vim.fn.executable("uv") ~= 0 then
 	local config_path = vim.fn.stdpath('config')
 	local venv_path   = config_path.. '/.venv'
-	local code        = os.execute('[ -d ' .. venv_path .. ' ]')
-	if code ~= 0 then
+	if vim.fn.isdirectory(venv_path) == 0 then
 		print("Creating neovim virtual environment...")
-		os.execute("cd " .. config_path.. " && uv venv && uv sync")
+		vim.fn.system({ 'uv', 'venv', '--directory', config_path })
+		if vim.v.shell_error == 0 then
+			vim.fn.system({ 'uv', 'sync', '--directory', config_path })
+		end
 		print("Done")
 	end
-	vim.g.python3_host_prog = venv_path .. "/bin/python"
+	if vim.fn.filereadable(venv_path .. '/bin/python') == 1 then
+		vim.g.python3_host_prog = venv_path .. '/bin/python'
+	else
+		print("Warning: neovim venv unavailable, using system python")
+		vim.g.python3_host_prog = vim.fn.exepath('python3')
+	end
 else
 	print("Warning: Using system python")
 	-- Fallback on system python
