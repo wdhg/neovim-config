@@ -29,6 +29,7 @@ packer.startup(function(use)
 	use 'wbthomason/packer.nvim' -- this keeps packer up to date
 
 	-- LSP
+	use 'williamboman/mason.nvim'           -- package manager for lsp/dap servers
 	use 'williamboman/mason-lspconfig.nvim' -- bridge mason and lspconfig so they work together
 	use 'neovim/nvim-lspconfig'             -- configurations for nvim lsp
 	use 'onsails/lspkind-nvim'              -- vscode-like pictograms for lsp
@@ -44,6 +45,13 @@ packer.startup(function(use)
 	-- snippet engine (needed by nvim-cmp)
 	use 'hrsh7th/cmp-vsnip'
 	use 'hrsh7th/vim-vsnip'
+
+	-- debugging (DAP)
+	use 'mfussenegger/nvim-dap'             -- debug adapter protocol client
+	use 'nvim-neotest/nvim-nio'             -- async lib required by nvim-dap-ui
+	use 'rcarriga/nvim-dap-ui'              -- UI: scopes, watches, repl
+	use 'theHamsta/nvim-dap-virtual-text'   -- variable values shown inline while debugging
+	use 'jay-babu/mason-nvim-dap.nvim'      -- installs debug adapters (codelldb) via mason
 
 	-- telescope
 	use 'nvim-lua/plenary.nvim'                      -- common utilities, used by telescope
