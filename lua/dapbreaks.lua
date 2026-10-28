@@ -10,6 +10,9 @@ local M = {}
 local win, buf = nil, nil
 local line_targets = {} -- lnum -> { bufnr, line }
 
+-- set by dap.rc.lua so deletions write through to the session file
+M.persist = nil
+
 local function collect()
 	local breakpoints = require('dap.breakpoints')
 	local rows = {}
@@ -143,6 +146,7 @@ local function delete_under_cursor()
 	if not target then return end
 	require('dap.breakpoints').remove(target.bufnr, target.line)
 	sync_sessions(target.bufnr)
+	if M.persist then M.persist() end
 	render()
 	-- keep the cursor roughly in place
 	local max = vim.api.nvim_buf_line_count(buf)

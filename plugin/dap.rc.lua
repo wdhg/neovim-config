@@ -12,11 +12,13 @@ if not status then return end
 local breakpoints = require('dap.breakpoints')
 
 local termrun = require('termrun')
+local dapbreaks = require('dapbreaks')
 
 -- forward-declared: the watches helpers below reference these, and a `local`
 -- declared later in the file wouldn't be in scope for them (it would compile
 -- as a global lookup and always be nil)
 local status_dapui, dapui
+local persist_breakpoints -- defined with breakpoints_by_file() near the end
 
 -- per-project session state -------------------------------------------------------
 
@@ -220,11 +222,13 @@ local function ensure_breakpoints_loaded()
 	for path, bps in pairs(load_session().breakpoints or {}) do
 		if vim.fn.filereadable(path) == 1 then
 			local bufnr = vim.fn.bufadd(path)
+			-- only restore files NOT already open: for loaded buffers the
+			-- in-memory state is authoritative (nvim-dap sends breakpoints.get()
+			-- at session start), so re-applying the session file here would
+			-- resurrect breakpoints deleted earlier in this nvim session
 			if vim.api.nvim_buf_is_valid(bufnr) and not vim.api.nvim_buf_is_loaded(bufnr) then
 				pcall(vim.fn.bufload, bufnr)
 				vim.bo[bufnr].buflisted = false -- don't clutter the buffer list
-			end
-			if vim.api.nvim_buf_is_loaded(bufnr) then
 				for _, bp in ipairs(bps) do
 					breakpoints.set({
 						condition = bp.condition,
@@ -577,9 +581,13 @@ vim.api.nvim_create_user_command('DapHelp', open_help, { desc = 'Show the dap ke
 
 -- remaining step controls ---------------------------------------------------------
 
-keymap.set('n', '<leader>db', function() dap.toggle_breakpoint() end, { desc = 'Toggle breakpoint' })
+keymap.set('n', '<leader>db', function()
+	dap.toggle_breakpoint()
+	persist_breakpoints()
+end, { desc = 'Toggle breakpoint' })
 keymap.set('n', '<leader>dB', function()
 	dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+	persist_breakpoints()
 end, { desc = 'Conditional breakpoint' })
 keymap.set('n', '<leader>do', function() dap.step_over() end, { desc = 'Step over' })
 keymap.set('n', '<leader>di', function() dap.step_into() end, { desc = 'Step into' })
@@ -595,7 +603,7 @@ keymap.set('n', '<leader>dn', function() dap.step_over() end, { desc = 'Step ove
 keymap.set('n', '<leader>dS', function() float_element('scopes') end, { desc = 'Scopes panel (float)' })
 keymap.set('n', '<leader>dw', function() float_element('watches') end, { desc = 'Watches panel (float)' })
 keymap.set('n', '<leader>dk', function() float_element('stacks') end, { desc = 'Stacks panel (float)' })
-keymap.set('n', '<leader>dq', function() require('dapbreaks').show() end, { desc = 'Breakpoints panel (jump/delete)' })
+keymap.set('n', '<leader>dq', function() dapbreaks.show() end, { desc = 'Breakpoints panel (jump/delete)' })
 
 -- full-tree variable inspector
 local dapinspect = require('dapinspect')
@@ -645,6 +653,18 @@ local function breakpoints_by_file()
 	end
 	return by_file
 end
+
+-- write-through: the session file only had breakpoints at VimLeavePre, so a
+-- breakpoint removed mid-session survived in the file and came back on the
+-- next launch. Persist on every change instead.
+-- NB: plain `function`, not `local function` — a second `local` would shadow
+-- the forward declaration above and leave the keymap closures calling nil
+function persist_breakpoints()
+	update_session(function(s)
+		s.breakpoints = breakpoints_by_file()
+	end)
+end
+dapbreaks.persist = persist_breakpoints
 
 local dap_augroup = vim.api.nvim_create_augroup('DapBreakpointPersistence', { clear = true })
 
