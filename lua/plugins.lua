@@ -53,7 +53,7 @@ packer.startup(function(use)
 	use 'aznhe21/actions-preview.nvim'               -- better LSP code action menu using telescope
 
 	-- misc
-	use 'nvim-treesitter/nvim-treesitter' -- treesitter
+	use {'nvim-treesitter/nvim-treesitter', branch = 'master'} -- treesitter (master: the 'main' rewrite needs nvim 0.12+)
 	use 'lewis6991/gitsigns.nvim'         -- git integration
 	use 'tpope/vim-fugitive'              -- more git integratio
 	use 'windwp/nvim-autopairs'           -- nvim-autopair

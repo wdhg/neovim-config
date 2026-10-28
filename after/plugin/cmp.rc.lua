@@ -6,10 +6,15 @@ if not status then return end
 
 local lspkind = require('lspkind')
 
-cmp.event:on(
-	'confirm_done',
-	cmp_autopairs.on_confirm_done()
-)
+-- event:on appends listeners, so register only once (re-sourcing this file,
+-- e.g. via :ReloadConfig, would otherwise double-insert autopairs brackets)
+if not vim.g.cmp_autopairs_registered then
+	vim.g.cmp_autopairs_registered = true
+	cmp.event:on(
+		'confirm_done',
+		cmp_autopairs.on_confirm_done()
+	)
+end
 cmp.setup({
 	snippet = {
 		expand = function(args)

@@ -52,6 +52,12 @@ treesitter.setup({
 })
 
 vim.api.nvim_create_autocmd('FileType', {
+	group = vim.api.nvim_create_augroup('TreesitterStart', { clear = true }),
 	pattern = { "c", "lua", "vim", "go", "rust", "python", "javascript", "typescript" },
-	callback = function() vim.treesitter.start() end,
+	-- NB: args.buf, not the current buffer — :ReloadConfig re-fires FileType per
+	-- buffer while a scratch buffer is current; start() with no args would
+	-- attach to the wrong (or a filetype-less) buffer and error
+	callback = function(args)
+		pcall(vim.treesitter.start, args.buf) -- pcall: parser may not be installed
+	end,
 })

@@ -4,7 +4,10 @@ vim.g.mapleader = ' '
 vim.opt.termguicolors = true
 vim.scriptencoding    = 'UTF-8'
 vim.opt.encoding      = 'UTF-8'
-vim.opt.fileencoding  = 'UTF-8'
+-- NB: global scope — vim.opt.fileencoding writes the CURRENT buffer and
+-- raises E21 when reloading with the cursor in a non-modifiable buffer (e.g.
+-- a dap float). The default is UTF-8 anyway, so global-only is equivalent.
+vim.opt_global.fileencoding = 'UTF-8'
 
 -- gui
 vim.opt.number       = true
@@ -46,10 +49,15 @@ vim.opt.secure     = true
 vim.opt.foldmethod = 'marker'
 
 -- formatoptions
-vim.cmd('au FileType * set formatoptions-=cro')
+vim.api.nvim_create_augroup('BaseAutocmds', { clear = true })
+vim.api.nvim_create_autocmd('FileType', { group = 'BaseAutocmds', command = 'set formatoptions-=cro' })
 
 -- languages
-vim.cmd('au BufRead,BufNewFile *.h set filetype=c')
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+	group = 'BaseAutocmds',
+	pattern = '*.h',
+	command = 'set filetype=c',
+})
 
 vim.g.node_host_prog    = vim.fn.system('command -v neovim-node-host')
 

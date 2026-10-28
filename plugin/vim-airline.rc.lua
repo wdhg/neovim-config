@@ -24,4 +24,10 @@ end
 function airline_init()
 	vim.g.airline_section_b = '%{v:lua.get_git_branch()}' .. vim.g.airline_section_b
 end
-vim.cmd('autocmd User AirlineAfterInit call v:lua.airline_init()')
+-- group with clear=true so re-sourcing (e.g. :ReloadConfig) doesn't stack copies
+vim.api.nvim_create_augroup('AirlineSectionB', { clear = true })
+vim.api.nvim_create_autocmd('User', {
+	group = 'AirlineSectionB',
+	pattern = 'AirlineAfterInit',
+	command = 'call v:lua.airline_init()',
+})
